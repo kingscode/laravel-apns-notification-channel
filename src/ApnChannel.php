@@ -1,66 +1,41 @@
 <?php
 
-namespace App\Push\Apn;
+namespace KoenHoeijmakers\LaravelApnsNotificationChannel;
 
-use App\Push\Apn\Exceptions\CantRouteNotificationException;
-use App\Push\Apn\Exceptions\MessageTooLargeException;
-use App\Push\Apn\Exceptions\NotAMessageException;
-use App\Push\Apn\Exceptions\NotificationLacksToApnMethodException;
+use GuzzleHttp\Client;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
+use KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\CantRouteNotificationException;
+use KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\MessageTooLargeException;
+use KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\NotAMessageException;
+use KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\NotificationLacksToApnMethodException;
 use function method_exists;
 
 class ApnChannel
 {
-    const SANDBOX = 'zandbox';
-    const PRODUCTION = 'productie';
+    const SANDBOX = 'api.development.push.apple.com';
+    const PRODUCTION = 'api.push.apple.com';
 
     /**
-     * @var string
+     * @var \KoenHoeijmakers\LaravelApnsNotificationChannel\Config
      */
-    protected $privateKey;
+    protected $config;
 
     /**
-     * @var string
+     * @var \GuzzleHttp\Client
      */
-    protected $developerId;
-
-    /**
-     * @var string
-     */
-    protected $teamId;
-
-    /**
-     * @var string
-     */
-    protected $appBundle;
-
-    /**
-     * @var null|string
-     */
-    protected $password;
+    protected $client;
 
     /**
      * ApnChannel constructor.
      *
-     * @param string      $privateKey
-     * @param string      $developerId
-     * @param string      $teamId
-     * @param string      $appBundle
-     * @param null|string $password
+     * @param \KoenHoeijmakers\LaravelApnsNotificationChannel\Config $config
+     * @param \GuzzleHttp\Client                                     $client
      */
-    public function __construct(
-        string $privateKey,
-        string $developerId,
-        string $teamId,
-        string $appBundle,
-        ?string $password = null
-    ) {
-        $this->privateKey = $privateKey;
-        $this->developerId = $developerId;
-        $this->teamId = $teamId;
-        $this->appBundle = $appBundle;
-        $this->password = $password;
+    public function __construct(Config $config, Client $client)
+    {
+        $this->config = $config;
+        $this->client = $client;
     }
 
     /**
@@ -68,10 +43,10 @@ class ApnChannel
      * @param \Illuminate\Notifications\Notification $notification
      * @return void
      *
-     * @throws \App\Push\Apn\Exceptions\NotAMessageException
-     * @throws \App\Push\Apn\Exceptions\MessageTooLargeException
-     * @throws \App\Push\Apn\Exceptions\CantRouteNotificationException
-     * @throws \App\Push\Apn\Exceptions\NotificationLacksToApnMethodException
+     * @throws \KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\NotAMessageException
+     * @throws \KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\MessageTooLargeException
+     * @throws \KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\CantRouteNotificationException
+     * @throws \KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\NotificationLacksToApnMethodException
      */
     public function send($notifiable, Notification $notification)
     {
@@ -97,5 +72,10 @@ class ApnChannel
         // @todo: Sign and push payload.
 
         $message->toPayload();
+    }
+
+    protected function sendMessage(Message $message)
+    {
+
     }
 }

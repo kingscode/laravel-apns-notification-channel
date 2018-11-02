@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Push\Apn;
+namespace KoenHoeijmakers\LaravelApnsNotificationChannel;
 
 class Message
 {

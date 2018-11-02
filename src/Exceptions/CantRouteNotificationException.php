@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Push\Apn\Exceptions;
+namespace KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions;
 
 use Exception;
 
