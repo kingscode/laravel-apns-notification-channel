@@ -1,0 +1,14 @@
+{
+    "name": "koenhoeijmakers/laravel-apns-notification-channel",
+    "description": "Apple push notification service (Laravel notification channel).",
+    "authors": [
+        {
+            "name": "Koen Hoeijmakers",
+            "email": "koen@hoeijmakers.me"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.1.3"
+    }
+}

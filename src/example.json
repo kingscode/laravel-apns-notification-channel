@@ -1,0 +1,18 @@
+{
+    "aps": {
+        "alert": {
+            "title": string,
+            "body": string,
+            "title-loc-key": string || null,
+            "title-loc-args": string || null,
+            "action-loc-key": string || null,
+            "loc-key": string,
+            "loc-args": [string, string, ...]
+        },
+        "badge": int,
+        "sound": string,
+        "content-available": int,
+        "category": string,
+        "thread-id": string
+    }
+}
