@@ -26,17 +26,11 @@ class ApnChannel
     protected $config;
 
     /**
-     * @var \GuzzleHttp\Client
-     */
-    protected $client;
-
-    /**
      * ApnChannel constructor.
      *
      * @param \KingsCode\LaravelApnsNotificationChannel\Config $config
-     * @param \GuzzleHttp\Client                               $client
      */
-    public function __construct(Config $config, Client $client)
+    public function __construct(Config $config)
     {
         $this->config = $config;
         $this->client = $client;
@@ -91,8 +85,6 @@ class ApnChannel
 
         $jws = $this->getJWS();
 
-        $tokens = ['338191fcf0ccfab27304beeb53dbfe8ac86b5410c94c921190d6370e00c38f48'];
-
         $http2ch = curl_init();
 
         curl_setopt_array($http2ch, [
@@ -112,10 +104,7 @@ class ApnChannel
 
         foreach ($tokens as $token) {
             curl_setopt($http2ch, CURLOPT_URL, $this->config->getConnection() . '/3/device/' . $token);
-
-            $result = curl_exec($http2ch);
-
-            dd($result);
+            curl_exec($http2ch);
         }
 
         curl_close($http2ch);

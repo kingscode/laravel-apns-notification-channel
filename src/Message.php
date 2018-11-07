@@ -65,6 +65,11 @@ class Message
     protected $threadId;
 
     /**
+     * @var array
+     */
+    protected $customData = [];
+
+    /**
      * @return array
      */
     protected function build()
@@ -93,7 +98,7 @@ class Message
             $payload['thread-id'] = $this->threadId;
         }
 
-        return $payload;
+        return array_merge($payload, $this->customData);
     }
 
     /**
@@ -295,5 +300,16 @@ class Message
     public static function create()
     {
         return new static();
+    }
+
+    /**
+     * @param array $customData
+     * @return \KingsCode\LaravelApnsNotificationChannel\Message
+     */
+    public function setCustomData(array $customData): Message
+    {
+        $this->customData = $customData;
+
+        return $this;
     }
 }
