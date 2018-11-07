@@ -1,6 +1,7 @@
 {
     "name": "kingscode/laravel-apns-notification-channel",
     "description": "Apple push notification service (Laravel notification channel).",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Koen Hoeijmakers",
