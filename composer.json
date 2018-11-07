@@ -21,5 +21,12 @@
         "psr-4": {
             "KingsCode\\LaravelApnsNotificationChannel\\": "src"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "KingsCode\\LaravelApnsNotificationChannel\\Providers\\ApnServiceProvider"
+            ]
+        }
     }
 }
