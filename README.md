@@ -12,7 +12,7 @@ Require the package.
 composer require kingscode/laravel-apns-notification-channel
 ```
 
-You will need to generate a `p8` certificate for you application, before you can use this channel. Configure the path in `config/broadcasting.php`.
+You will need to get a `p8` certificate for you application from `apple`, before you can use this channel. Configure the path in `config/broadcasting.php`.
 ```php
 'connections' => [
     'apn' => [
