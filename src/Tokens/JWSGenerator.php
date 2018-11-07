@@ -1,5 +1,7 @@
 <?php
 
+namespace KingsCode\LaravelApnsNotificationChannel\Tokens;
+
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;

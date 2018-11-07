@@ -288,4 +288,12 @@ class Message
     {
         return $this->toJson();
     }
+
+    /**
+     * @return \KingsCode\LaravelApnsNotificationChannel\Message
+     */
+    public static function create()
+    {
+        return new static();
+    }
 }

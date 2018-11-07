@@ -31,22 +31,4 @@ class ApnServiceProvider extends ServiceProvider
             );
         });
     }
-
-    // /**
-    //  * @return void
-    //  */
-    // public function register()
-    // {
-    //     $this->app->bind(JWSGenerator::class, function (Container $app) {
-    //         $jsonConverter = new StandardConverter();
-    //
-    //         $algorithmManager = AlgorithmManager::create([
-    //             new ES256(),
-    //         ]);
-    //
-    //         $jwsBuilder = new JWSBuilder($jsonConverter, $algorithmManager);
-    //
-    //         return new JWSGenerator($jwsBuilder);
-    //     });
-    // }
 }
