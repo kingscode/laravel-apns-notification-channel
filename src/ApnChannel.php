@@ -6,16 +6,13 @@ use GuzzleHttp\Client;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\StandardConverter;
-use Jose\Component\Core\JWK;
-use Jose\Component\Signature\Algorithm\ES256;
-use Jose\Component\Signature\JWSBuilder;
-use JWSGenerator;
+use Jose\Factory\JWKFactory;
+use Jose\Factory\JWSFactory;
 use KingsCode\LaravelApnsNotificationChannel\Exceptions\CantRouteNotificationException;
 use KingsCode\LaravelApnsNotificationChannel\Exceptions\MessageTooLargeException;
 use KingsCode\LaravelApnsNotificationChannel\Exceptions\NotAMessageException;
 use KingsCode\LaravelApnsNotificationChannel\Exceptions\NotificationLacksToApnMethodException;
+use function curl_setopt;
 use function method_exists;
 
 class ApnChannel
@@ -34,22 +31,15 @@ class ApnChannel
     protected $client;
 
     /**
-     * @var \JWSGenerator
-     */
-    protected $JWSGenerator;
-
-    /**
      * ApnChannel constructor.
      *
      * @param \KingsCode\LaravelApnsNotificationChannel\Config $config
-     * @param \GuzzleHttp\Client                                     $client
-     * @param \JWSGenerator                                          $JWSGenerator
+     * @param \GuzzleHttp\Client                               $client
      */
-    public function __construct(Config $config, Client $client, JWSGenerator $JWSGenerator)
+    public function __construct(Config $config, Client $client)
     {
         $this->config = $config;
         $this->client = $client;
-        $this->JWSGenerator = $JWSGenerator;
     }
 
     /**
@@ -58,7 +48,6 @@ class ApnChannel
      * @return void
      *
      * @throws \KingsCode\LaravelApnsNotificationChannel\Exceptions\NotAMessageException
-     * @throws \KingsCode\LaravelApnsNotificationChannel\Exceptions\MessageTooLargeException
      * @throws \KingsCode\LaravelApnsNotificationChannel\Exceptions\CantRouteNotificationException
      * @throws \KingsCode\LaravelApnsNotificationChannel\Exceptions\NotificationLacksToApnMethodException
      */
@@ -82,64 +71,77 @@ class ApnChannel
             throw new NotAMessageException();
         }
 
-        // @todo: Sign and push payload.
         $this->sendMessage($message, $tokens);
     }
 
     /**
      * @param \KingsCode\LaravelApnsNotificationChannel\Message $message
+     * @param array                                             $tokens
+     * @return void
      * @throws \KingsCode\LaravelApnsNotificationChannel\Exceptions\MessageTooLargeException
      */
     protected function sendMessage(Message $message, array $tokens)
     {
         // check notification size... (4Kb max).
-        if (Str::length($message->__toString()) > 4000) {
+        if (Str::length($message->toJson()) > 4000) {
             throw new MessageTooLargeException();
         }
 
-        $jws = $this->JWSGenerator->generate(
-            $this->config->getTeamId(),
-            $this->config->getKeyId()
-        );
+        $payload = $message->toJson();
+
+        $jws = $this->getJWS();
+
+        $tokens = ['338191fcf0ccfab27304beeb53dbfe8ac86b5410c94c921190d6370e00c38f48'];
+
+        $http2ch = curl_init();
+
+        curl_setopt_array($http2ch, [
+            CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_2_0,
+            CURLOPT_PORT           => 443,
+            CURLOPT_HTTPHEADER     => [
+                'apns-topic: ' . $this->config->getAppBundle(),
+                'Authorization: Bearer ' . $jws,
+            ],
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => $payload,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 30,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HEADER         => 1,
+        ]);
 
         foreach ($tokens as $token) {
-            $this->client->post('https://api.development.push.apple.com/3/device/' . $token, [
-                'headers' => [
-                    'apns-topic'    => $this->config->getAppBundle(),
-                    'Authorization' => 'Bearer ' . $jws->getEncodedPayload(),
-                ],
-                'params' => $message->toPayload()
-            ]);
+            curl_setopt($http2ch, CURLOPT_URL, $this->config->getConnection() . '/3/device/' . $token);
+
+            $result = curl_exec($http2ch);
+
+            dd($result);
         }
+
+        curl_close($http2ch);
     }
 
+    /**
+     * @return string
+     */
     protected function getJWS()
     {
-        $jsonConverter = new StandardConverter();
-
-        $algorithmManager = AlgorithmManager::create([
-            new ES256(),
+        $privateKey = JWKFactory::createFromKeyFile($this->config->getPrivateKey(), $this->config->getPrivateKeyPassword(), [
+            'kid' => $this->config->getKeyId(),
+            'alg' => 'ES256',
+            'use' => 'sig',
         ]);
 
-        $jwsBuilder = new JWSBuilder($jsonConverter, $algorithmManager);
-
-        $payload = $jsonConverter->encode([
+        $claims = [
             'iss' => $this->config->getTeamId(),
             'iat' => time(),
-        ]);
+        ];
 
-        $jwk = JWK::create([
-            'kty' => 'RSA',
+        $headers = [
             'alg' => 'ES256',
-            'kid' => $this->config->getKeyId(),
-        ]);
+            'kid' => $privateKey->get('kid'),
+        ];
 
-        $jwsBuilder->create()
-            ->withPayload($payload)
-            ->addSignature($jwk, [
-                'alg' => 'ES256',
-                'kid' => $jwk->get('kid'),
-            ])
-            ->build();
+        return JWSFactory::createJWSToCompactJSON($claims, $privateKey, $headers);
     }
 }
