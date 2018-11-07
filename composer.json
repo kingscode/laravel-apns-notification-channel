@@ -1,5 +1,5 @@
 {
-    "name": "koenhoeijmakers/laravel-apns-notification-channel",
+    "name": "kingscode/laravel-apns-notification-channel",
     "description": "Apple push notification service (Laravel notification channel).",
     "authors": [
         {
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "KoenHoeijmakers\\LaravelApnsNotificationChannel\\": "src"
+            "KingsCode\\LaravelApnsNotificationChannel\\": "src"
         }
     }
 }

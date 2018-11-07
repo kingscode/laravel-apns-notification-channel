@@ -1,6 +1,6 @@
 <?php
 
-namespace KoenHoeijmakers\LaravelApnsNotificationChannel\Providers;
+namespace KingsCode\LaravelApnsNotificationChannel\Providers;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
@@ -10,7 +10,7 @@ use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Signature\Algorithm\ES256;
 use Jose\Component\Signature\JWSBuilder;
 use JWSGenerator;
-use KoenHoeijmakers\LaravelApnsNotificationChannel\Config;
+use KingsCode\LaravelApnsNotificationChannel\Config;
 
 class ApnServiceProvider extends ServiceProvider
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions;
+namespace KingsCode\LaravelApnsNotificationChannel\Exceptions;
 
 use Exception;
 

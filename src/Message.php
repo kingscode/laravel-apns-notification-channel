@@ -1,6 +1,6 @@
 <?php
 
-namespace KoenHoeijmakers\LaravelApnsNotificationChannel;
+namespace KingsCode\LaravelApnsNotificationChannel;
 
 class Message
 {

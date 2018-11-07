@@ -1,6 +1,6 @@
 <?php
 
-namespace KoenHoeijmakers\LaravelApnsNotificationChannel;
+namespace KingsCode\LaravelApnsNotificationChannel;
 
 use GuzzleHttp\Client;
 use Illuminate\Notifications\Notification;
@@ -12,10 +12,10 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\ES256;
 use Jose\Component\Signature\JWSBuilder;
 use JWSGenerator;
-use KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\CantRouteNotificationException;
-use KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\MessageTooLargeException;
-use KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\NotAMessageException;
-use KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\NotificationLacksToApnMethodException;
+use KingsCode\LaravelApnsNotificationChannel\Exceptions\CantRouteNotificationException;
+use KingsCode\LaravelApnsNotificationChannel\Exceptions\MessageTooLargeException;
+use KingsCode\LaravelApnsNotificationChannel\Exceptions\NotAMessageException;
+use KingsCode\LaravelApnsNotificationChannel\Exceptions\NotificationLacksToApnMethodException;
 use function method_exists;
 
 class ApnChannel
@@ -24,7 +24,7 @@ class ApnChannel
     const PRODUCTION = 'https://api.push.apple.com';
 
     /**
-     * @var \KoenHoeijmakers\LaravelApnsNotificationChannel\Config
+     * @var \KingsCode\LaravelApnsNotificationChannel\Config
      */
     protected $config;
 
@@ -41,7 +41,7 @@ class ApnChannel
     /**
      * ApnChannel constructor.
      *
-     * @param \KoenHoeijmakers\LaravelApnsNotificationChannel\Config $config
+     * @param \KingsCode\LaravelApnsNotificationChannel\Config $config
      * @param \GuzzleHttp\Client                                     $client
      * @param \JWSGenerator                                          $JWSGenerator
      */
@@ -57,10 +57,10 @@ class ApnChannel
      * @param \Illuminate\Notifications\Notification $notification
      * @return void
      *
-     * @throws \KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\NotAMessageException
-     * @throws \KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\MessageTooLargeException
-     * @throws \KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\CantRouteNotificationException
-     * @throws \KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\NotificationLacksToApnMethodException
+     * @throws \KingsCode\LaravelApnsNotificationChannel\Exceptions\NotAMessageException
+     * @throws \KingsCode\LaravelApnsNotificationChannel\Exceptions\MessageTooLargeException
+     * @throws \KingsCode\LaravelApnsNotificationChannel\Exceptions\CantRouteNotificationException
+     * @throws \KingsCode\LaravelApnsNotificationChannel\Exceptions\NotificationLacksToApnMethodException
      */
     public function send($notifiable, Notification $notification)
     {
@@ -87,8 +87,8 @@ class ApnChannel
     }
 
     /**
-     * @param \KoenHoeijmakers\LaravelApnsNotificationChannel\Message $message
-     * @throws \KoenHoeijmakers\LaravelApnsNotificationChannel\Exceptions\MessageTooLargeException
+     * @param \KingsCode\LaravelApnsNotificationChannel\Message $message
+     * @throws \KingsCode\LaravelApnsNotificationChannel\Exceptions\MessageTooLargeException
      */
     protected function sendMessage(Message $message, array $tokens)
     {
