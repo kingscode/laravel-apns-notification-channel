@@ -1,4 +1,8 @@
-# Laravel APNS Notification Service
+# Laravel APNS Notification Channel
+[![Packagist](https://img.shields.io/packagist/v/kingscode/laravel-apns-notification-channel.svg?colorB=brightgreen)](https://packagist.org/packages/kingscode/laravel-apns-notification-channel)
+[![license](https://img.shields.io/github/license/kingscode/laravel-apns-notification-channel.svg?colorB=brightgreen)](https://github.com/kingscode/laravel-apns-notification-channel)
+[![Packagist](https://img.shields.io/packagist/dt/kingscode/laravel-apns-notification-channel.svg?colorB=brightgreen)](https://packagist.org/packages/kingscode/laravel-apns-notification-channel)
+
 Apple push notification service (Laravel notification channel).
 
 ## Installation
