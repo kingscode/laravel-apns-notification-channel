@@ -12,7 +12,7 @@ class Config
     /**
      * @var string
      */
-    protected $developerId;
+    protected $keyId;
 
     /**
      * @var string
@@ -25,30 +25,55 @@ class Config
     protected $appBundle;
 
     /**
-     * @var null|string
-     */
-    protected $password;
-
-    /**
      * ApnChannel constructor.
      *
-     * @param string      $privateKey
-     * @param string      $developerId
-     * @param string      $teamId
-     * @param string      $appBundle
-     * @param null|string $password
+     * @param string $privateKey
+     * @param string $keyId
+     * @param string $teamId
+     * @param string $appBundle
      */
     public function __construct(
         string $privateKey,
-        string $developerId,
+        string $keyId,
         string $teamId,
-        string $appBundle,
-        ?string $password = null
+        string $appBundle
     ) {
         $this->privateKey = $privateKey;
-        $this->developerId = $developerId;
+        $this->keyId = $keyId;
         $this->teamId = $teamId;
         $this->appBundle = $appBundle;
-        $this->password = $password;
     }
+
+    /**
+     * @return string
+     */
+    public function getPrivateKey(): string
+    {
+        return $this->privateKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKeyId(): string
+    {
+        return $this->keyId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTeamId(): string
+    {
+        return $this->teamId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAppBundle(): string
+    {
+        return $this->appBundle;
+    }
+
 }

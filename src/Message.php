@@ -266,16 +266,26 @@ class Message
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function toJson()
     {
-        return $this->toArray();
+        return json_encode($this->toArray());
     }
 
+    /**
+     * @return array
+     */
     public function toPayload()
     {
         return $this->build();
     }
 
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toJson();
+    }
 }
