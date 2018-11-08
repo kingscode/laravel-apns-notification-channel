@@ -13,9 +13,6 @@
         "php": "^7.1.3",
         "illuminate/notifications": "^5.5",
         "illuminate/support": "^5.5",
-        "spomky-labs/jose": "^7.1",
-        "ext-json": "*",
-        "ext-curl": "*",
         "edamov/pushok": "^0.4.3"
     },
     "autoload": {
