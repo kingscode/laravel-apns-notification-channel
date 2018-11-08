@@ -16,12 +16,12 @@ You will need to get a `p8` certificate for you application from `apple`, before
 ```php
 'connections' => [
     'apn' => [
-        'connection'           => ApnChannel::SANDBOX,
-        'private_key'          => storage_path('keys/apn.p8'),
         'key_id'               => env('APNS_KEY_ID'),
         'team_id'              => env('APNS_TEAM_ID'),
         'app_bundle'           => env('APNS_APP_BUNDLE'),
+        'private_key'          => storage_path('keys/apn.p8'),
         'private_key_password' => env('APNS_KEY_PASSWORD', null),
+        'is_production'        => false,
     ],
 ];
 ```
