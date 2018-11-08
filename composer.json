@@ -15,7 +15,8 @@
         "illuminate/support": "^5.5",
         "spomky-labs/jose": "^7.1",
         "ext-json": "*",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "edamov/pushok": "^0.4.3"
     },
     "autoload": {
         "psr-4": {
