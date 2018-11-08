@@ -2,6 +2,9 @@
 
 namespace KingsCode\LaravelApnsNotificationChannel;
 
+use Pushok\Payload;
+use Pushok\Payload\Alert;
+
 class Message
 {
     /**
@@ -50,9 +53,9 @@ class Message
     protected $sound;
 
     /**
-     * @var int
+     * @var bool
      */
-    protected $contentAvailable;
+    protected $contentAvailable = true;
 
     /**
      * @var string
@@ -70,73 +73,79 @@ class Message
     protected $customData = [];
 
     /**
-     * @return array
+     * @return \Pushok\Payload
      */
-    protected function build()
+    public function toPayload(): Payload
     {
-        $payload = [];
+        $payload = Payload::create();
 
-        $payload['aps']['alert'] = $this->buildAlert();
+        $payload->setAlert($this->buildAlert());
 
         if (isset($this->badge)) {
-            $payload['badge'] = $this->badge;
+            $payload->setBadge($this->badge);
         }
 
         if (isset($this->sound)) {
-            $payload['sound'] = $this->sound;
+            $payload->setSound($this->sound);
         }
 
         if (isset($this->contentAvailable)) {
-            $payload['content-available'] = $this->contentAvailable;
+            $payload->setContentAvailability($this->contentAvailable);
         }
 
         if (isset($this->category)) {
-            $payload['category'] = $this->category;
+            $payload->setCategory($this->category);
         }
 
         if (isset($this->threadId)) {
-            $payload['thread-id'] = $this->threadId;
+            $payload->setThreadId($this->threadId);
         }
 
-        return array_merge($payload, $this->customData);
-    }
-
-    /**
-     * @return array
-     */
-    protected function buildAlert()
-    {
-        $payload = [];
-
-        if (isset($this->title)) {
-            $payload['title'] = $this->title;
-        }
-
-        if (isset($this->body)) {
-            $payload['body'] = $this->body;
-        }
-
-        if (isset($this->titleLocKey)) {
-            $payload['title-loc-key'] = $this->titleLocKey;
-        }
-
-        if (isset($this->titleLocArgs)) {
-            $payload['title-loc-args'] = $this->titleLocArgs;
-        }
-
-        if (isset($this->actionLocKey)) {
-            $payload['action-loc-key'] = $this->actionLocKey;
-        }
-
-        if (isset($this->locKey)) {
-            $payload['loc-key'] = $this->locKey;
-        }
-
-        if (isset($this->locArgs)) {
-            $payload['loc-args'] = $this->locArgs;
+        if (isset($this->customData)) {
+            foreach ($this->customData as $key => $value) {
+                $payload->setCustomValue($key, $value);
+            }
         }
 
         return $payload;
+    }
+
+    /**
+     * @return \Pushok\Payload\Alert
+     */
+    protected function buildAlert(): Alert
+    {
+        $alert = Alert::create();
+
+        if (isset($this->title)) {
+            $alert->setTitle($this->title);
+        }
+
+        if (isset($this->body)) {
+            $alert->setBody($this->body);
+        }
+
+        if (isset($this->titleLocKey)) {
+            $alert->setTitleLocKey($this->titleLocKey);
+        }
+
+        if (isset($this->titleLocArgs)) {
+            $alert->setTitleLocArgs($this->titleLocArgs);
+        }
+
+        if (isset($this->actionLocKey)) {
+            $alert->setActionLocKey($this->actionLocKey);
+        }
+
+        if (isset($this->locKey)) {
+            $alert->setLocKey($this->locKey);
+        }
+
+        if (isset($this->locArgs)) {
+            $alert->setLocArgs($this->locArgs);
+        }
+
+        return $alert;
     }
 
     /**
@@ -162,10 +171,10 @@ class Message
     }
 
     /**
-     * @param array|null $titleLocKey
+     * @param string|null $titleLocKey
      * @return Message
      */
-    public function setTitleLocKey(?array $titleLocKey): Message
+    public function setTitleLocKey(?string $titleLocKey): Message
     {
         $this->titleLocKey = $titleLocKey;
 
@@ -173,10 +182,10 @@ class Message
     }
 
     /**
-     * @param null|string $titleLocArgs
+     * @param null|array $titleLocArgs
      * @return Message
      */
-    public function setTitleLocArgs(?string $titleLocArgs): Message
+    public function setTitleLocArgs(?array $titleLocArgs): Message
     {
         $this->titleLocArgs = $titleLocArgs;
 
@@ -228,10 +237,10 @@ class Message
     }
 
     /**
-     * @param int $contentAvailable
+     * @param bool $contentAvailable
      * @return Message
      */
-    public function setContentAvailable(int $contentAvailable): Message
+    public function setContentAvailable(bool $contentAvailable): Message
     {
         $this->contentAvailable = $contentAvailable;
 
@@ -261,48 +270,6 @@ class Message
     }
 
     /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return $this->toPayload();
-    }
-
-    /**
-     * @return string
-     */
-    public function toJson()
-    {
-        return json_encode($this->toArray());
-    }
-
-    /**
-     * @return array
-     */
-    public function toPayload()
-    {
-        return $this->build();
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->toJson();
-    }
-
-    /**
-     * @return \KingsCode\LaravelApnsNotificationChannel\Message
-     */
-    public static function create()
-    {
-        return new static();
-    }
-
-    /**
      * @param array $customData
      * @return \KingsCode\LaravelApnsNotificationChannel\Message
      */
@@ -311,5 +278,13 @@ class Message
         $this->customData = $customData;
 
         return $this;
+    }
+
+    /**
+     * @return \KingsCode\LaravelApnsNotificationChannel\Message
+     */
+    public static function create()
+    {
+        return new static();
     }
 }
