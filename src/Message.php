@@ -55,7 +55,7 @@ class Message
     /**
      * @var bool
      */
-    protected $contentAvailable = true;
+    protected $contentAvailable;
 
     /**
      * @var string
@@ -79,9 +79,7 @@ class Message
     {
         $payload = Payload::create();
 
-        $payload->setContentAvailability($this->contentAvailable);
-
-        if ($this->contentAvailable === true) {
+        if (! isset($this->contentAvailable) || $this->contentAvailable === false) {
             $payload->setAlert($this->buildAlert());
         }
 
@@ -91,6 +89,10 @@ class Message
 
         if (isset($this->sound)) {
             $payload->setSound($this->sound);
+        }
+
+        if (isset($this->contentAvailable) && $this->contentAvailable === true) {
+            $payload->setContentAvailability($this->contentAvailable);
         }
 
         if (isset($this->category)) {
