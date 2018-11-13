@@ -79,7 +79,11 @@ class Message
     {
         $payload = Payload::create();
 
-        $payload->setAlert($this->buildAlert());
+        $payload->setContentAvailability($this->contentAvailable);
+
+        if ($this->contentAvailable === true) {
+            $payload->setAlert($this->buildAlert());
+        }
 
         if (isset($this->badge)) {
             $payload->setBadge($this->badge);
@@ -87,10 +91,6 @@ class Message
 
         if (isset($this->sound)) {
             $payload->setSound($this->sound);
-        }
-
-        if (isset($this->contentAvailable)) {
-            $payload->setContentAvailability($this->contentAvailable);
         }
 
         if (isset($this->category)) {
