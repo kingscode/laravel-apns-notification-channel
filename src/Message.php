@@ -73,13 +73,18 @@ class Message
     protected $customData = [];
 
     /**
+     * @var bool
+     */
+    protected $silent = false;
+
+    /**
      * @return \Pushok\Payload
      */
     public function toPayload(): Payload
     {
         $payload = Payload::create();
 
-        if (! isset($this->contentAvailable) || $this->contentAvailable === false) {
+        if (! $this->silent) {
             $payload->setAlert($this->buildAlert());
         }
 
@@ -91,7 +96,7 @@ class Message
             $payload->setSound($this->sound);
         }
 
-        if (isset($this->contentAvailable) && $this->contentAvailable === true) {
+        if (isset($this->contentAvailable) && $this->contentAvailable) {
             $payload->setContentAvailability($this->contentAvailable);
         }
 
@@ -278,6 +283,17 @@ class Message
     public function setCustomData(array $customData): Message
     {
         $this->customData = $customData;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $silent
+     * @return \KingsCode\LaravelApnsNotificationChannel\Message
+     */
+    public function setSilent(bool $silent = true): Message
+    {
+        $this->silent = $silent;
 
         return $this;
     }
