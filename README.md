@@ -43,7 +43,7 @@ And in your `Notification` add a `toApn` method that returns a `Message`.
  * @param $notifiable
  * @return \KingsCode\LaravelApnsNotificationChannel\Message
  */
-public function toAPN($notifiable)
+public function toApn($notifiable)
 {
     return (new Message())
         ->setTitle('title')
