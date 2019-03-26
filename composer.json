@@ -13,7 +13,7 @@
         "php": "^7.1.3",
         "illuminate/notifications": "^5.5",
         "illuminate/support": "^5.5",
-        "edamov/pushok": "^0.4.3"
+        "edamov/pushok": "^0.5"
     },
     "autoload": {
         "psr-4": {
