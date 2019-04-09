@@ -26,7 +26,7 @@ class ApnServiceProvider extends ServiceProvider
                 'team_id'            => $config->get('broadcasting.connections.apn.team_id'),
                 'app_bundle_id'      => $config->get('broadcasting.connections.apn.app_bundle'),
                 'private_key_path'   => $config->get('broadcasting.connections.apn.private_key'),
-                'private_key_secret' => $config->get('broadcasting.connections.apn.private_key_password', null)
+                'private_key_secret' => $config->get('broadcasting.connections.apn.private_key_password', null),
             ]);
 
             $client = new Client($token, $config->get('broadcasting.connections.apn.is_production', false));

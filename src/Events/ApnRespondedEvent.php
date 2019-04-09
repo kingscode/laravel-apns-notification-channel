@@ -14,7 +14,7 @@ class ApnRespondedEvent
     /**
      * ApnRespondedEvent constructor.
      *
-     * @param \Pushok\ApnsResponseInterface $response
+     * @param  \Pushok\ApnsResponseInterface $response
      */
     public function __construct(ApnsResponseInterface $response)
     {

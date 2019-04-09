@@ -29,7 +29,7 @@ You will need to get a `p8` certificate for you application from `apple`, before
 ## Usage
 In your `notifiable` model, make sure to include a `routeNotificationForApn()` method which may return a single token or an array of tokens.
 ```php
-public function routeNotificationForApn()
+public function routeNotificationForApn(): string
 {
     return $this->apn_token;
 }
@@ -43,7 +43,7 @@ And in your `Notification` add a `toApn` method that returns a `Message`.
  * @param $notifiable
  * @return \KingsCode\LaravelApnsNotificationChannel\Message
  */
-public function toApn($notifiable)
+public function toApn($notifiable): Message
 {
     return (new Message())
         ->setTitle('title')
@@ -53,7 +53,7 @@ public function toApn($notifiable)
 
 And make sure your `via` method returns the `ApnChannel`.
 ```php
-public function via($notifiable)
+public function via($notifiable): array
 {
     return [ApnChannel::class];
 }

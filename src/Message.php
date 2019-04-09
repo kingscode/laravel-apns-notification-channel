@@ -156,7 +156,7 @@ class Message
     }
 
     /**
-     * @param string $title
+     * @param  string $title
      * @return Message
      */
     public function setTitle(string $title): Message
@@ -167,7 +167,7 @@ class Message
     }
 
     /**
-     * @param string $body
+     * @param  string $body
      * @return Message
      */
     public function setBody(string $body): Message
@@ -178,7 +178,7 @@ class Message
     }
 
     /**
-     * @param string|null $titleLocKey
+     * @param  string|null $titleLocKey
      * @return Message
      */
     public function setTitleLocKey(?string $titleLocKey): Message
@@ -189,7 +189,7 @@ class Message
     }
 
     /**
-     * @param null|array $titleLocArgs
+     * @param  null|array $titleLocArgs
      * @return Message
      */
     public function setTitleLocArgs(?array $titleLocArgs): Message
@@ -200,7 +200,7 @@ class Message
     }
 
     /**
-     * @param string $locKey
+     * @param  string $locKey
      * @return Message
      */
     public function setLocKey(string $locKey): Message
@@ -211,7 +211,7 @@ class Message
     }
 
     /**
-     * @param array $locArgs
+     * @param  array $locArgs
      * @return Message
      */
     public function setLocArgs(array $locArgs): Message
@@ -222,7 +222,7 @@ class Message
     }
 
     /**
-     * @param int $badge
+     * @param  int $badge
      * @return Message
      */
     public function setBadge(int $badge): Message
@@ -233,7 +233,7 @@ class Message
     }
 
     /**
-     * @param string $sound
+     * @param  string $sound
      * @return Message
      */
     public function setSound(string $sound): Message
@@ -244,7 +244,7 @@ class Message
     }
 
     /**
-     * @param bool $contentAvailable
+     * @param  bool $contentAvailable
      * @return Message
      */
     public function setContentAvailable(bool $contentAvailable): Message
@@ -255,7 +255,7 @@ class Message
     }
 
     /**
-     * @param string $category
+     * @param  string $category
      * @return Message
      */
     public function setCategory(string $category): Message
@@ -266,7 +266,7 @@ class Message
     }
 
     /**
-     * @param string $threadId
+     * @param  string $threadId
      * @return Message
      */
     public function setThreadId(string $threadId): Message
@@ -277,7 +277,7 @@ class Message
     }
 
     /**
-     * @param array $customData
+     * @param  array $customData
      * @return \KingsCode\LaravelApnsNotificationChannel\Message
      */
     public function setCustomData(array $customData): Message
@@ -288,7 +288,7 @@ class Message
     }
 
     /**
-     * @param bool $silent
+     * @param  bool $silent
      * @return \KingsCode\LaravelApnsNotificationChannel\Message
      */
     public function setSilent(bool $silent = true): Message
