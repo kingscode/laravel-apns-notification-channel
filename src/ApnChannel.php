@@ -6,7 +6,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Arr;
 use KingsCode\LaravelApnsNotificationChannel\Events\ApnRespondedEvent;
-use KingsCode\LaravelApnsNotificationChannel\Exceptions\CantRouteNotificationException;
 use KingsCode\LaravelApnsNotificationChannel\Exceptions\NotAMessageException;
 use KingsCode\LaravelApnsNotificationChannel\Exceptions\NotificationLacksToApnMethodException;
 use Pushok\Client;
@@ -27,8 +26,8 @@ class ApnChannel
     /**
      * ApnChannel constructor.
      *
-     * @param \Pushok\Client                          $client
-     * @param \Illuminate\Contracts\Events\Dispatcher $dispatcher
+     * @param  \Pushok\Client                          $client
+     * @param  \Illuminate\Contracts\Events\Dispatcher $dispatcher
      */
     public function __construct(Client $client, Dispatcher $dispatcher)
     {
@@ -37,12 +36,11 @@ class ApnChannel
     }
 
     /**
-     * @param \Illuminate\Notifications\Notifiable   $notifiable
-     * @param \Illuminate\Notifications\Notification $notification
+     * @param  \Illuminate\Notifications\Notifiable   $notifiable
+     * @param  \Illuminate\Notifications\Notification $notification
      * @return void
      *
      * @throws \KingsCode\LaravelApnsNotificationChannel\Exceptions\NotAMessageException
-     * @throws \KingsCode\LaravelApnsNotificationChannel\Exceptions\CantRouteNotificationException
      * @throws \KingsCode\LaravelApnsNotificationChannel\Exceptions\NotificationLacksToApnMethodException
      */
     public function send($notifiable, Notification $notification)
@@ -56,7 +54,7 @@ class ApnChannel
         );
 
         if (empty($tokens)) {
-            throw new CantRouteNotificationException();
+            return;
         }
 
         $message = $notification->toApn($notifiable);
@@ -69,8 +67,8 @@ class ApnChannel
     }
 
     /**
-     * @param \KingsCode\LaravelApnsNotificationChannel\Message $message
-     * @param array                                             $tokens
+     * @param  \KingsCode\LaravelApnsNotificationChannel\Message $message
+     * @param  array                                             $tokens
      * @return void
      */
     protected function sendMessage(Message $message, array $tokens)
