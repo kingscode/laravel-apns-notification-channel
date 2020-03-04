@@ -11,8 +11,8 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^7.2",
-        "illuminate/notifications": "^6.0",
-        "illuminate/support": "^6.0",
+        "illuminate/notifications": "^6.0|^7.0",
+        "illuminate/support": "^6.0|^7.0",
         "edamov/pushok": "^0.6.4"
     },
     "autoload": {
