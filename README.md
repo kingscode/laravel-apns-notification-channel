@@ -1,3 +1,10 @@
+# Notice
+:warning: Abandoned :warning:
+
+This package was written at a time where the offical [Laravel Notification Channels](https://github.com/laravel-notification-channels) didn't support the "new" APNs API.
+
+This package is hereby no longer maintained and you should seriously consider upgrading to [laravel-notification-channels/apn](https://github.com/laravel-notification-channels/apn)
+
 # Laravel APNS Notification Channel
 [![Packagist](https://img.shields.io/packagist/v/kingscode/laravel-apns-notification-channel.svg?colorB=brightgreen)](https://packagist.org/packages/kingscode/laravel-apns-notification-channel)
 [![license](https://img.shields.io/github/license/kingscode/laravel-apns-notification-channel.svg?colorB=brightgreen)](https://github.com/kingscode/laravel-apns-notification-channel)
